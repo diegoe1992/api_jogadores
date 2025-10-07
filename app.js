@@ -3,6 +3,9 @@ const express = require('express');
 const config = require('./config.js');
 const cors = require('cors');
 const app = express();
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocs = require('./swaggerConfig'); // Importa a configuração
+
 //PRE-CONFIGURACAO
 app.use(express.json()); //parser dados de requisicoes em JSON
 app.use(
@@ -13,6 +16,9 @@ app.use(
 
 //BANCO DE DADOS
 const conexao = require('./app/models'); //inicializa a config do BD com sequelize
+
+// --- ROTA PARA A DOCUMENTAÇÃO ---
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 //ROTAS
 app.get('/', (request, response) => {

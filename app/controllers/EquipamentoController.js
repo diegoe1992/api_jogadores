@@ -64,15 +64,17 @@ class EquipamentoController {
         Equipamento.update(request.body, request.params.id_jogador, request.params.id_equipamento)
             .then(equipamentoAtualizado => {
                 if (equipamentoAtualizado == 1) {
-                    Equipamento.findOne(id_jogador, id_equipamento).then(data => {
+                    Equipamento.findOne(request.params.id_jogador, request.params.id_equipamento).then(data => {
                         response.send(data);
                     });
                 } else {
                     response.send({
-                        message: `Não foi possível atualizar o equipamento com id=${id_equipamento}. Talvez o equipamento não foi encontrado ou o req.body está vazio!`
+                        message: `Não foi possível atualizar o equipamento com id=${request.params.id_equipamento}. Talvez o equipamento não foi encontrado ou o req.body está vazio!`
                     });
                 }
             })
+
+             
             .catch(erro => {
                 return response.status(500).json({ message: 'erro no servidor: ' + erro.message });
             });
